@@ -5,32 +5,32 @@ open System.Text.RegularExpressions
 
 module private Local =
     let wordNumbers =
-        [| "zero"
-           "one"
-           "two"
-           "three"
-           "four"
-           "five"
-           "six"
-           "seven"
-           "eight"
-           "nine" |]
+        [ "zero"
+          "one"
+          "two"
+          "three"
+          "four"
+          "five"
+          "six"
+          "seven"
+          "eight"
+          "nine" ]
 
     let parseWordNumber (line: string) : string =
-        match Array.tryFindIndex ((=) line) wordNumbers with
+        match List.tryFindIndex ((=) line) wordNumbers with
         | Some i -> sprintf "%A" i
         | None -> line
 
     let parseLine (line: string) : int =
-        [| "(\d)"; ".*(\d).*" |]
-        |> Seq.map (fun s -> Regex s |> (fun (r: Regex) -> r.Match(line).Groups.Item(1).Value))
+        [ "(\d)"; ".*(\d).*" ]
+        |> List.map (fun s -> Regex s |> (fun (r: Regex) -> r.Match(line).Groups.Item(1).Value))
         |> String.concat ""
         |> int
 
     let parseLine2 (line: string) : int =
-        [| sprintf "(\d|%s).*" (String.concat "|" wordNumbers)
-           sprintf ".*(\d|%s)" (String.concat "|" wordNumbers) |]
-        |> Seq.map (fun s ->
+        [ sprintf "(\d|%s).*" (String.concat "|" wordNumbers)
+          sprintf ".*(\d|%s)" (String.concat "|" wordNumbers) ]
+        |> List.map (fun s ->
             Regex s
             |> (fun (r: Regex) -> r.Match(line).Groups.Item(1).Value)
             |> parseWordNumber)
@@ -39,12 +39,12 @@ module private Local =
 
 module Y2023 =
     module Day1 =
-        let solve (filePath: string) : int*int =
+        let solve (filePath: string) : int * int =
             use reader = new StreamReader(filePath)
 
             seq {
                 while not reader.EndOfStream do
                     yield reader.ReadLine()
             }
-            |> Seq.map (fun s -> ( Local.parseLine s, Local.parseLine2 s ))
-            |> Seq.fold (fun ((a, b): int*int) (a1, b1) -> (a+a1, b+b1)) (0, 0)
+            |> Seq.map (fun s -> (Local.parseLine s, Local.parseLine2 s))
+            |> Seq.fold (fun ((a, b): int * int) (a1, b1) -> (a + a1, b + b1)) (0, 0)
