@@ -51,7 +51,11 @@
         <Content Include="input\2023\day1">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="input\2022\day1">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Compile Include="solvers\2023\Day1.fs" />
+        <Compile Include="solvers\2022\Day1.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
     <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')"/>

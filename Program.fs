@@ -4,11 +4,14 @@ open System
 open System.IO
 open System.Text.RegularExpressions
 
-open Solvers.Y2023
+open Solvers
 
 type Solver = string -> int * int
 
-let solvers: Map<int * int, Solver> = Map.empty |> Map.add (23, 1) Day1.solve
+let solvers: Map<int * int, Solver> =
+    Map.empty
+    |> Map.add (23, 1) Y2023.Day1.solve
+    |> Map.add (22, 1) Y2022.Day1.solve
 
 [<EntryPoint>]
 let main argv =
