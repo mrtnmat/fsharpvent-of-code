@@ -44,14 +44,15 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <None Include=".gitignore" />
         <Compile Include="AssemblyInfo.fs"/>
         <Compile Include="Utils.fs" />
-        <None Include=".gitignore" />
-        <Compile Include="Program.fs" />
         <Content Include="packages.config"/>
         <Content Include="input\2023\day1">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Compile Include="solvers\2023\Day1.fs" />
+        <Compile Include="Program.fs" />
     </ItemGroup>
     <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')"/>
 </Project>

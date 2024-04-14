@@ -4,50 +4,58 @@ open System
 open System.IO
 open System.Text.RegularExpressions
 
-let wordNumbers =
-    [| "zero"
-       "one"
-       "two"
-       "three"
-       "four"
-       "five"
-       "six"
-       "seven"
-       "eight"
-       "nine" |]
+open Solvers.Y2023
 
-let parseWordNumber (line: string) : string =
-    match Array.tryFindIndex ((=) line) wordNumbers with
-    | Some i -> sprintf "%A" i
-    | None -> line
+type Solver = string -> int * int
 
-let parseLine (line: string) : int =
-    [| "(\d)"; ".*(\d).*" |]
-    |> Seq.map (fun s -> Regex s |> (fun (r: Regex) -> r.Match(line).Groups.Item(1).Value))
-    |> String.concat ""
-    |> int
-
-let parseLine2 (line: string) : int =
-    [| sprintf "(\d|%s).*" (String.concat "|" wordNumbers)
-       sprintf ".*(\d|%s)" (String.concat "|" wordNumbers) |]
-    |> Seq.map (fun s ->
-        Regex s
-        |> (fun (r: Regex) -> r.Match(line).Groups.Item(1).Value)
-        |> parseWordNumber)
-    |> String.concat ""
-    |> int
+let solvers: Map<int * int, Solver> = Map.empty |> Map.add (23, 1) Day1.solve
 
 [<EntryPoint>]
 let main argv =
-    let filePath = Path.Combine(Environment.CurrentDirectory, "input", "2023", "day1")
-    use reader = new StreamReader(filePath)
 
-    seq {
-        while not reader.EndOfStream do
-            yield reader.ReadLine()
-    }
-    |> Seq.map (fun s -> [ parseLine s; parseLine2 s ])
-    |> Seq.fold (fun acc v -> List.map2 (fun a b -> a + b) v acc) [ 0; 0 ]
-    |> printfn "result: %A"
+    let rec readInput () =
+        printfn "Insert puzzle to solve"
+
+        Console.ReadLine()
+        |> fun (line: string) ->
+            let r = "(\d{1,2})(?:\s|\-|,)+[^\d]*(\d{1,2})" |> Regex |> (fun r -> r.Match(line))
+
+            match r.Success with
+            | true -> Ok r.Groups
+            | false -> Error "Invalid input"
+        |> Result.map (fun (m: GroupCollection) -> int m.[1].Value, int m.[2].Value)
+        |> Result.bind (fun (key: int * int) ->
+            match Map.containsKey key solvers with
+            | true -> Ok key
+            | false -> Error(sprintf "No solver for this puzzle (Year: 20%A, Day: %A)" <|| key))
+        |> Result.bind (fun ((year, day): int * int) ->
+            let p =
+                Path.Combine(Environment.CurrentDirectory, "input", sprintf "20%A" year, sprintf "day%A" day)
+
+            match File.Exists(p) with
+            | true -> Ok(year, day)
+            | false -> Error "No input file for this year/day")
+        |> fun (a: Result<int * int, string>) ->
+            match a with
+            | Ok a -> a
+            | Error e ->
+                printfn "%s" e
+                readInput ()
+
+
+
+    let year, day = readInput ()
+
+    let path =
+        Path.Combine
+            [| Environment.CurrentDirectory
+               "input"
+               sprintf "20%A" year
+               sprintf "day%A" day |]
+
+    let sol1, sol2 = (Map.find (year, day) solvers) path
+
+    printfn "year 20%A - day %A" year day
+    printfn "[part1: %A, part2: %A]" sol1 sol2
 
     0
