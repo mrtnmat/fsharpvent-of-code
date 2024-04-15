@@ -37,8 +37,14 @@ module Y2022 =
                         | _, v -> v)
                     0
 
+            let solvePart2 (filePath: string) =
+                filePath
+                |> parseInput
+                |> List.map (List.fold (fun s v -> s + v) 0)
+                |> List.sortDescending
+                |> List.take 3
+                |> List.fold (fun s v -> s + v) 0
+
         let solve (filePath: string) =
 
-            //List.iter (printfn "%A") (Local.parseInputNew filePath)
-
-            (Local.solvePart1 filePath, 0)
+            (Local.solvePart1 filePath, Local.solvePart2 filePath)
