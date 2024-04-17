@@ -1,7 +1,6 @@
 ﻿namespace Solvers
 
 open System.IO
-open System.Text.RegularExpressions
 
 module Y2021 =
     module Day1 =
