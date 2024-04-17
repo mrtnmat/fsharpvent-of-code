@@ -1,6 +1,4 @@
-﻿namespace Solvers
-
-namespace Y2021
+﻿namespace Solvers.Y2020
 
 open System.IO
 
