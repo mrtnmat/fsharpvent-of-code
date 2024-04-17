@@ -14,6 +14,7 @@ let solvers: Map<int * int, Solver> =
     |> Map.add (22, 1) Y2022.Day1.solve
     |> Map.add (21, 1) Y2021.Day1.solve
     |> Map.add (20, 1) Y2020.Day1.solve
+    |> Map.add (19, 1) Y2019.Day1.solve
 
 [<EntryPoint>]
 let main argv =

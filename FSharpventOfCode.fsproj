@@ -58,10 +58,14 @@
     <None Include="input\2020\day1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="input\2019\day1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="solvers\2023\Day1.fs" />
     <Compile Include="solvers\2022\Day1.fs" />
     <Compile Include="solvers\2021\Day1.fs" />
     <Compile Include="solvers\2020\Day1.fs" />
+    <Compile Include="solvers\2019\Day1.fs" />
     <Folder Include="solvers\2020\" />
     <Folder Include="solvers\2019\" />
     <Folder Include="solvers\2018\" />
