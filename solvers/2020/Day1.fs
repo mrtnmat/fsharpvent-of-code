@@ -15,14 +15,21 @@ module Day1 =
             |> Seq.map (int)
             |> Seq.toList
 
-        let solveN (filePath: string) (n: int) : int =
-            filePath
-            |> parseInput
-            |> (fun s -> Seq.map2 (fun n1 n2 -> n1 - n2) (Seq.skip n s) s)
-            |> Seq.filter (fun n -> n > 0)
-            |> Seq.length
+        let AllPairsFromList (lst: 'a list) =
+            let rec f acc l =
+                match l with
+                | [] -> acc
+                | [ _ ] -> acc
+                | (x :: xs) -> f ((List.allPairs [ x ] xs) :: acc) xs
 
-    let solvePart1 (filePath: string) : int = 0
+            f [] lst |> List.concat
+
+    let solvePart1 (filePath: string) : int =
+        Local.parseInput filePath
+        |> Local.AllPairsFromList
+        |> List.filter (fun (x, y) -> x + y = 2020)
+        |> List.head
+        |> (fun (x, y) -> x * y)
 
     let solvePart2 (filePath: string) : int = 0
 
