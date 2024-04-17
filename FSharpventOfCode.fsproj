@@ -52,8 +52,18 @@
         <Content Include="input\2022\day1">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="input\2021\day1">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Compile Include="solvers\2023\Day1.fs" />
         <Compile Include="solvers\2022\Day1.fs" />
+        <Compile Include="solvers\2021\Day1.fs" />
+        <Folder Include="solvers\2020\" />
+        <Folder Include="solvers\2019\" />
+        <Folder Include="solvers\2018\" />
+        <Folder Include="solvers\2017\" />
+        <Folder Include="solvers\2016\" />
+        <Folder Include="solvers\2015\" />
         <Compile Include="Program.fs" />
     </ItemGroup>
     <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
