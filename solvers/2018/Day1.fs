@@ -15,37 +15,35 @@ module Day1 =
             }
             |> Seq.map (int)
             |> Seq.toList
-            
+
         let rec loopList (lst: 'a list) =
             seq {
                 for item in lst do
                     yield item
-                yield! loopList lst
-            }
-        let rec loopUntil (lst: int list) =
-            seq {
-                for item in lst do
-                    yield item
+
                 yield! loopList lst
             }
 
     let solvePart1 (filePath: string) : int =
-        Local.parseInput filePath
-        |> List.fold(fun s v -> s + v) 0
+        Local.parseInput filePath |> List.fold (fun s v -> s + v) 0
 
     let solvePart2 (filePath: string) : int =
         Local.parseInput filePath
-        |> List.scan (fun (acc, visited) vl ->
-            match visited with
-            | None -> (vl, None)
-            | Some set -> match acc + vl with
-                            | x when Set.contains x set -> (vl, None) 
-                            | x -> (x, Some (Set.add (x) set)))
+        |> Local.loopList
+        |> Seq.scan
+            (fun (acc, visited) vl ->
+                match visited with
+                | None -> (vl, None)
+                | Some set ->
+                    match acc + vl with
+                    | x when Set.contains x set -> (x, None)
+                    | x -> (x, Some(Set.add (x) set)))
             (0, Some Set.empty<int>)
-        |> Seq.takeWhile (fun (acc, visited) -> match visited with
-                                                    | None -> false
-                                                    | Some _ -> true)
-        |> Seq.last
+        |> Seq.skipWhile (fun (_, visited) ->
+            match visited with
+            | None -> false
+            | Some _ -> true)
+        |> Seq.head
         |> fst
 
     let solve (filePath: string) =
