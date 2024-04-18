@@ -16,7 +16,7 @@ module Day1 =
             |> Seq.map (int)
             |> Seq.toList
 
-        let AllPairsFromList (lst: 'a list) =
+        let allPairsFromList (lst: 'a list) =
             let rec f acc l =
                 match l with
                 | [] -> acc
@@ -25,25 +25,25 @@ module Day1 =
 
             f [] lst |> List.concat
 
-        let AllTriples (inp: int list) : int list seq =
+        let allTriples (inp: int list) : int list seq =
             seq {
                 for i in 1 .. List.length inp do
                     for j in i + 1 .. List.length inp do
                         for k in j + 1 .. List.length inp do
                             yield [ i; j; k ]
             }
-            |> Seq.map (fun l -> List.map (fun i -> inp.[i - 1]) l)
+            |> Seq.map (List.map (fun i -> inp.[i - 1]))
 
     let solvePart1 (filePath: string) : int =
         Local.parseInput filePath
-        |> Local.AllPairsFromList
-        |> List.filter (fun (x, y) -> x + y = 2020)
+        |> Local.allPairsFromList
+        |> List.filter(fun (a, b) -> a + b = 2020)
         |> List.head
-        |> (fun (x, y) -> x * y)
+        |> (fun (a, b) -> a * b)
 
     let solvePart2 (filePath: string) : int =
         Local.parseInput filePath
-        |> Local.AllTriples
+        |> Local.allTriples
         |> Seq.filter (fun l -> (List.fold (fun s v -> s + v) 0 l) = 2020)
         |> Seq.head
         |> List.fold (fun s t -> s * t) 1
