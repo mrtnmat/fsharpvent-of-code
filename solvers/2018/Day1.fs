@@ -1,4 +1,4 @@
-namespace Solvers.Y2019
+namespace Solvers.Y2018
 
 open System.IO
 
@@ -15,20 +15,38 @@ module Day1 =
             }
             |> Seq.map (int)
             |> Seq.toList
-        
-        let fuelReq (mass: int) =
-            mass / 3 - 2
-        
-        let fuelReq2 (mass: int) =
-            let rec f (m: int) (acc: int) =
-                match (fuelReq m) with
-                | fuel when fuel < 1 -> acc
-                | fuel -> f fuel (acc + fuel)
-            f mass 0
+            
+        let rec loopList (lst: 'a list) =
+            seq {
+                for item in lst do
+                    yield item
+                yield! loopList lst
+            }
+        let rec loopUntil (lst: int list) =
+            seq {
+                for item in lst do
+                    yield item
+                yield! loopList lst
+            }
 
-    let solvePart1 (filePath: string) : int = 0
+    let solvePart1 (filePath: string) : int =
+        Local.parseInput filePath
+        |> List.fold(fun s v -> s + v) 0
 
-    let solvePart2 (filePath: string) : int = 0
+    let solvePart2 (filePath: string) : int =
+        Local.parseInput filePath
+        |> List.scan (fun (acc, visited) vl ->
+            match visited with
+            | None -> (vl, None)
+            | Some set -> match acc + vl with
+                            | x when Set.contains x set -> (vl, None) 
+                            | x -> (x, Some (Set.add (x) set)))
+            (0, Some Set.empty<int>)
+        |> Seq.takeWhile (fun (acc, visited) -> match visited with
+                                                    | None -> false
+                                                    | Some _ -> true)
+        |> Seq.last
+        |> fst
 
     let solve (filePath: string) =
         (solvePart1 filePath, solvePart2 filePath)
