@@ -61,17 +61,15 @@
     <None Include="input\2019\day1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="input\2018\day1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="solvers\2023\Day1.fs" />
     <Compile Include="solvers\2022\Day1.fs" />
     <Compile Include="solvers\2021\Day1.fs" />
     <Compile Include="solvers\2020\Day1.fs" />
     <Compile Include="solvers\2019\Day1.fs" />
-    <Folder Include="solvers\2020\" />
-    <Folder Include="solvers\2019\" />
-    <Folder Include="solvers\2018\" />
-    <Folder Include="solvers\2017\" />
-    <Folder Include="solvers\2016\" />
-    <Folder Include="solvers\2015\" />
+    <Compile Include="solvers\2018\Day1.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
